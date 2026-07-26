@@ -19,6 +19,23 @@ public class AdminModel {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
 	private String role;
+	
+	private String otp;
+	private java.time.LocalDateTime otpExpiration;
+	
+	public String getOtp() {
+		return otp;
+	}
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+	public java.time.LocalDateTime getOtpExpiration() {
+		return otpExpiration;
+	}
+	public void setOtpExpiration(java.time.LocalDateTime otpExpiration) {
+		this.otpExpiration = otpExpiration;
+	}
+	
 	/**
 	 * @return the id
 	 */

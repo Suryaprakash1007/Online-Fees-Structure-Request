@@ -24,7 +24,7 @@ public class SecurityConfig {
                 // Allow static resources (HTML, CSS, JS, Images)
                 .requestMatchers("/", "/*.html", "/*.css", "/*.js", "/assets/**", "/images/**").permitAll()
                 // Allow login and registration endpoints
-                .requestMatchers("/login", "/ins", "/admin/login").permitAll()
+                .requestMatchers("/login", "/ins", "/admin/login", "/admin/verify-otp").permitAll()
                 // Require specific roles for specific endpoints (Optional, but good practice)
                 .requestMatchers("/api/students/pending", "/api/students/*/approve", "/api/students/*/reject", "/api/students/approved", "/api/students/rejected", "/api/admin/**").hasRole("ADMIN")
                 // All other requests must be authenticated
