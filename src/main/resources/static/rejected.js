@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function loadRejected() {
       tableBody.innerHTML = "";
       try {
-        const response = await fetch("https://online-fess-structure-request-8.onrender.com//api/students/rejected");
+        const response = await fetch("/api/students/rejected");
         if (!response.ok) throw new Error("Failed to fetch rejected students");
   
         const students = await response.json();
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <td>${stu.year}</td>
             <td>${stu.status}</td>
             <td>
-              <a class="file-link" href="https://online-fess-structure-request-8.onrender.com//student/${stu.id}/file" target="_blank">View</a>
+              <a class="file-link" href="/student/${stu.id}/file" target="_blank">View</a>
             </td>
           `;
   

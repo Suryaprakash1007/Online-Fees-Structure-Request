@@ -1,6 +1,6 @@
 async function fetchPendingStudents() {
     try {
-      const response = await fetch("https://online-fess-structure-request-8.onrender.com/api/students/pending");
+      const response = await fetch("/api/students/pending");
       const students = await response.json();
   
       const tbody = document.querySelector("#studentTable tbody");
@@ -17,7 +17,7 @@ async function fetchPendingStudents() {
           <td>${student.course}</td>
           <td>${student.email}</td>
           <td>${student.reason}</td>
-          <td><a href="https://online-fess-structure-request-8.onrender.com/api/students/${student.id}/file" target="_blank">View</a></td>
+          <td><a href="/api/students/${student.id}/file" target="_blank">View</a></td>
           <td>
             <button class="approve" onclick="updateStatus(${student.id}, 'APPROVED')">Approve</button>
             <button class="reject" onclick="updateStatus(${student.id}, 'REJECTED')">Reject</button>
@@ -33,7 +33,7 @@ async function fetchPendingStudents() {
   
   async function updateStatus(id, status) {
     try {
-      const response = await fetch(`https://online-fess-structure-request-8.onrender.com/api/students/${id}/status/email?status=${status}`, {
+      const response = await fetch(`/api/students/${id}/status/email?status=${status}`, {
         method: "PUT"
       });
   
@@ -50,7 +50,7 @@ async function fetchPendingStudents() {
   async function rejectStudent(id) {
     if (confirm("Reject this student?")) {
       try {
-        const res = await fetch(`https://online-fess-structure-request-8.onrender.com/api/students/rejected/`, {
+        const res = await fetch(`/api/students/rejected/`, {
           method: "PUT"
         });
         if (res.ok) {
@@ -67,7 +67,7 @@ async function fetchPendingStudents() {
   async function approveStudent(id) {
     if (confirm("Approve this student?")) {
       try {
-        const res = await fetch(`https://online-fess-structure-request-8.onrender.com/api/students/approved`, {
+        const res = await fetch(`/api/students/approved`, {
           method: "PUT"
         });
         if (res.ok) {

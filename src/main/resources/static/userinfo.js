@@ -1,7 +1,7 @@
 // ✅ Load all users
 async function loadUsers() {
   try {
-    const response = await fetch("https://online-fess-structure-request-8.onrender.com/api/details");
+    const response = await fetch("/api/details");
     const users = await response.json();
 
     const tableBody = document.querySelector("#usersTable tbody");
@@ -85,7 +85,7 @@ async function saveUser(row, id) {
   };
 
   try {
-    await fetch(`https://online-fess-structure-request-8.onrender.com/api/updatedstudent/${id}`, {
+    await fetch(`/api/updatedstudent/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedUser)
@@ -106,7 +106,7 @@ function cancelRowEdit(row) {
 async function deleteUser(id) {
   if (confirm("Are you sure you want to delete this user?")) {
     try {
-      await fetch(`https://online-fess-structure-request-8.onrender.com/api/${id}/del`, { method: "DELETE" });
+      await fetch(`/api/${id}/del`, { method: "DELETE" });
       loadUsers();
     } catch (err) {
       console.error("Error deleting user:", err);

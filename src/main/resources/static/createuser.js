@@ -13,7 +13,7 @@ document.getElementById("createUserForm").addEventListener("submit", async (e) =
     };
   
     try {
-      const response = await fetch("https://online-fess-structure-request-8.onrender.com/api/ins", {
+      const response = await fetch("/api/ins", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)

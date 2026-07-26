@@ -80,7 +80,7 @@ public class Studentdetail {
             @RequestParam("file") MultipartFile file,@RequestParam String course,@RequestParam String department,@RequestParam String year) throws IOException {
 
         
-        	studentService.saveStudent(rollno,name,reason,email,course,department,year,file);
+        	studentService.saveStudentWithFile(rollno,name,reason,email,course,department,year,file);
         	return ResponseEntity.ok("Student uploaded succesfully");
     }
    
@@ -95,10 +95,10 @@ public class Studentdetail {
 
     @PutMapping("/{id}/status/email")
     public ResponseEntity<String> updateStatus1(@PathVariable Long id, @RequestParam String status) {
-        Studentdetailmodel student = studentService.findById(id).orElseThrow();
+        Studentdetailmodel student = studentService.getStudentById(id).orElseThrow();
 
         student.setStatus(status);
-        studentService.save(student);
+        studentService.saveStudent(student);
 
         if ("APPROVED".equalsIgnoreCase(status)) {
             emailService.sendApprovalWithAttachment(student);
@@ -113,9 +113,9 @@ public class Studentdetail {
         return ResponseEntity.ok("Status updated and mail sent");
     }
     @GetMapping("/requests/student")
-    public List<Request> getRequestsByRollno(HttpSession session) {
+    public List<Studentdetailmodel> getRequestsByRollno(HttpSession session) {
     	String rollno=(String) session.getAttribute("rollno");
-        return studentService.getRequestsByRollno(rollno);
+        return studentService.getStudentsByRollno(rollno);
     }
 
 }

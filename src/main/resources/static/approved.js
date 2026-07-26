@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function loadApproved() {
       tableBody.innerHTML = "";
       try {
-        const response = await fetch("https://online-fess-structure-request-8.onrender.com/api/students/approved");
+        const response = await fetch("/api/students/approved");
         if (!response.ok) throw new Error("Failed to fetch approved students");
   
         const students = await response.json();
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <td>${stu.year}</td>
             <td>${stu.status}</td>
             <td>
-              <a class="file-link" href="https://online-fess-structure-request-8.onrender.com/api/students/${stu.id}/file" target="_blank">View</a>
+              <a class="file-link" href="/api/students/${stu.id}/file" target="_blank">View</a>
             </td>
           `;
   

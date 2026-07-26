@@ -23,7 +23,7 @@ public class Admincontroller {
 	@PostMapping("/login")
 	public ResponseEntity<Map<String,String>>login(@RequestBody AdminModel dd){
 		return rs.findByUsername(dd.getUsername())
-				.filter(u -> u.getPassword().equals(dd.getPassword()))
+				.filter(u -> com.fees.demo.util.PasswordUtil.checkPassword(dd.getPassword(), u.getPassword()))
 				.map(u -> ResponseEntity.ok(Map.of("role",u.getRole())))
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}

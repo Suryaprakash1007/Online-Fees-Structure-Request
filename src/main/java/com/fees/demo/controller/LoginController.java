@@ -32,16 +32,21 @@ public class LoginController {
 	private Studentservice stu;
 	@PostMapping("/login")
     public ResponseEntity<Loginmodel> loginStudent(@RequestBody Loginmodel request) {
-        Loginmodel student = stu.findByRollnoAndPassword(request.getRollno(), request.getPassword());
-        if (student == null) {
+        try {
+            Loginmodel student = stu.getStudentByRollno(request.getRollno());
+            if (student == null || !com.fees.demo.util.PasswordUtil.checkPassword(request.getPassword(), student.getPassword())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            // ✅ return full student object (password is ignored by @JsonProperty)
+            return ResponseEntity.ok(student);
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        // ✅ return full student object
-        return ResponseEntity.ok(student);
     }
 	
 	@PostMapping("/ins")
     public ResponseEntity<Loginmodel> createStudent(@RequestBody Loginmodel student) {
+			student.setPassword(com.fees.demo.util.PasswordUtil.hashPassword(student.getPassword()));
 			Loginmodel saved = stu.saveStudent(student);
         return ResponseEntity.ok(saved);
 	}
@@ -54,7 +59,7 @@ public class LoginController {
     public ResponseEntity<Loginmodel> updateRequest(@PathVariable Long id, @RequestBody Loginmodel updatedRequest) {
         return rs.findById(id).map(existingRequest -> {
         	existingRequest.setRollno(updatedRequest.getRollno());
-            existingRequest.setPassword(updatedRequest.getPassword());
+            existingRequest.setPassword(com.fees.demo.util.PasswordUtil.hashPassword(updatedRequest.getPassword()));
             existingRequest.setName(updatedRequest.getName());
             existingRequest.setDepartment(updatedRequest.getDepartment());
             existingRequest.setYear(updatedRequest.getYear());
