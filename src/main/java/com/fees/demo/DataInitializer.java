@@ -15,20 +15,17 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Check if any admin exists in the database
-        if (adminRepository.count() == 0) {
-            System.out.println("No admin user found. Creating default admin user...");
+        // Check if the specific admin exists in the database
+        if (adminRepository.findByUsername("ishankishen454545@gmail.com").isEmpty()) {
+            System.out.println("Admin user ishankishen454545@gmail.com not found. Creating...");
             
             AdminModel defaultAdmin = new AdminModel();
             defaultAdmin.setUsername("ishankishen454545@gmail.com");
-            defaultAdmin.setPassword(PasswordUtil.hashPassword("ishankishen@123")); // Default password
+            defaultAdmin.setPassword(PasswordUtil.hashPassword("ishankishen@123"));
             defaultAdmin.setRole("admin");
             
             adminRepository.save(defaultAdmin);
-            
-            System.out.println("Default admin created successfully!");
-            System.out.println("Username: ishankishen454545@gmail.com");
-            System.out.println("Password: ishankishen@123");
+            System.out.println("Admin created successfully!");
         }
     }
 }
