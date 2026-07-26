@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,8 +30,7 @@ public class Studentdetailmodel {
     @Column(name = "file_type")
     private String fileType;
 
-    @Lob
-    @Column(name = "file_data", columnDefinition = "LONGBLOB")
+    @Column(name = "file_data", columnDefinition = "bytea")
     private byte[] fileData;
 
     private String status = "PENDING";
