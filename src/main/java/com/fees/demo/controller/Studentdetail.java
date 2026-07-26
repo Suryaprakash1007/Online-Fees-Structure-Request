@@ -112,9 +112,8 @@ public class Studentdetail {
 
         return ResponseEntity.ok("Status updated and mail sent");
     }
-    @GetMapping("/requests/student")
-    public List<Studentdetailmodel> getRequestsByRollno(HttpSession session) {
-    	String rollno=(String) session.getAttribute("rollno");
+    @GetMapping("/requests/{rollno}")
+    public List<Studentdetailmodel> getRequestsByRollno(@PathVariable String rollno) {
         return studentService.getStudentsByRollno(rollno);
     }
 

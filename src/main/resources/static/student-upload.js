@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (res.ok) {
         alert("Request submitted successfully!");
-        studentForm.reset();
+        window.location.href = "studentdashboard.html";
       } else {
         alert("Upload failed!");
       }
