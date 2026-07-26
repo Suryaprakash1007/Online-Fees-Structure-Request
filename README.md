@@ -4,11 +4,11 @@
   <p><strong>A secure, web-based Admin Login & Dashboard System.</strong></p>
   
   <p>
-    <a href="https://github.com/YOUR-USERNAME/Online-Fess-Structure-Request/commits/main">
-      <img src="https://img.shields.io/github/last-commit/YOUR-USERNAME/Online-Fess-Structure-Request.svg?style=flat-square&color=blue" alt="Last Commit" />
+    <a href="https://github.com/Suryaprakash1007/Online-Fess-Structure-Request/commits/main">
+      <img src="https://img.shields.io/github/last-commit/Suryaprakash1007/Online-Fess-Structure-Request.svg?style=flat-square&color=blue" alt="Last Commit" />
     </a>
-    <a href="https://github.com/YOUR-USERNAME/Online-Fess-Structure-Request/issues">
-      <img src="https://img.shields.io/github/issues/YOUR-USERNAME/Online-Fess-Structure-Request.svg?style=flat-square&color=orange" alt="Issues" />
+    <a href="https://github.com/Suryaprakash1007/Online-Fess-Structure-Request/issues">
+      <img src="https://img.shields.io/github/issues/Suryaprakash1007/Online-Fess-Structure-Request.svg?style=flat-square&color=orange" alt="Issues" />
     </a>
   </p>
 </div>
@@ -43,5 +43,5 @@ The **Online Fees Structure Request System** provides a secure, web-based authen
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/YOUR-USERNAME/Online-Fess-Structure-Request.git
+   git clone https://github.com/Suryaprakash1007/Online-Fess-Structure-Request.git
    cd Online-Fess-Structure-Request
