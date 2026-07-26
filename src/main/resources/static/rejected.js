@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function loadRejected() {
       tableBody.innerHTML = "";
       try {
-        const response = await fetch("/api/students/rejected");
+        const response = await fetchWithAuth("/api/students/rejected");
         if (!response.ok) throw new Error("Failed to fetch rejected students");
   
         const students = await response.json();

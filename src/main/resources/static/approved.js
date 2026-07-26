@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function loadApproved() {
       tableBody.innerHTML = "";
       try {
-        const response = await fetch("/api/students/approved");
+        const response = await fetchWithAuth("/api/students/approved");
         if (!response.ok) throw new Error("Failed to fetch approved students");
   
         const students = await response.json();

@@ -33,9 +33,13 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const data = await response.json();
     console.log("Login API response:", data);
 
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
+
     if (role === "student") {
       // ✅ Save the full student object
-      localStorage.setItem("student", JSON.stringify(data));
+      localStorage.setItem("student", JSON.stringify(data.student));
       window.location.href = "studentdashboard.html";
     } else if (role === "admin") {
       localStorage.setItem("admin", JSON.stringify(data));

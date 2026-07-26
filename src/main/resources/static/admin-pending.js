@@ -1,6 +1,6 @@
 async function fetchPendingStudents() {
     try {
-      const response = await fetch("/api/students/pending");
+      const response = await fetchWithAuth("/api/students/pending");
       const students = await response.json();
   
       const tbody = document.querySelector("#studentTable tbody");
@@ -33,7 +33,7 @@ async function fetchPendingStudents() {
   
   async function updateStatus(id, status) {
     try {
-      const response = await fetch(`/api/students/${id}/status/email?status=${status}`, {
+      const response = await fetchWithAuth(`/api/students/${id}/status/email?status=${status}`, {
         method: "PUT"
       });
   
@@ -50,7 +50,7 @@ async function fetchPendingStudents() {
   async function rejectStudent(id) {
     if (confirm("Reject this student?")) {
       try {
-        const res = await fetch(`/api/students/rejected/`, {
+        const res = await fetchWithAuth(`/api/students/rejected/`, {
           method: "PUT"
         });
         if (res.ok) {
@@ -67,7 +67,7 @@ async function fetchPendingStudents() {
   async function approveStudent(id) {
     if (confirm("Approve this student?")) {
       try {
-        const res = await fetch(`/api/students/approved`, {
+        const res = await fetchWithAuth(`/api/students/approved`, {
           method: "PUT"
         });
         if (res.ok) {

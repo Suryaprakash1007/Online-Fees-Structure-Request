@@ -21,6 +21,8 @@ import com.fees.demo.repository.Loginrepository;
 import com.fees.demo.service.Studentservice;
 
 
+import com.fees.demo.security.JwtUtil;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins="*")
@@ -30,15 +32,20 @@ public class LoginController {
 	
 	@Autowired
 	private Studentservice stu;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
+
 	@PostMapping("/login")
-    public ResponseEntity<Loginmodel> loginStudent(@RequestBody Loginmodel request) {
+    public ResponseEntity<?> loginStudent(@RequestBody Loginmodel request) {
         try {
             Loginmodel student = stu.getStudentByRollno(request.getRollno());
             if (student == null || !com.fees.demo.util.PasswordUtil.checkPassword(request.getPassword(), student.getPassword())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-            // ✅ return full student object (password is ignored by @JsonProperty)
-            return ResponseEntity.ok(student);
+            
+            String token = jwtUtil.generateToken(student.getRollno(), "STUDENT");
+            return ResponseEntity.ok(Map.of("token", token, "student", student));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

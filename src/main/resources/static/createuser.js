@@ -13,7 +13,7 @@ document.getElementById("createUserForm").addEventListener("submit", async (e) =
     };
   
     try {
-      const response = await fetch("/api/ins", {
+      const response = await fetchWithAuth("/api/ins", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
