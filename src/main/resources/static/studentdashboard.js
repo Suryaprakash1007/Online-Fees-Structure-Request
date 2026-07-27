@@ -12,7 +12,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Update welcome message if name exists
   if (student.name) {
-    document.querySelector("h1").textContent = `🎓 Welcome, ${student.name}`;
+    const welcomeEl = document.getElementById("studentWelcome");
+    if(welcomeEl) welcomeEl.textContent = `🎓 Welcome, ${student.name}`;
   }
 
   try {
@@ -24,8 +25,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const requests = await response.json();
     if (requests && requests.length > 0) {
-      document.getElementById("requestsSection").style.display = "block";
-      const tableBody = document.getElementById("requestTable");
+      const tableBody = document.getElementById("studentRequests");
+      if(!tableBody) return;
       tableBody.innerHTML = "";
 
       requests.forEach(req => {
@@ -33,26 +34,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         let statusBadge = "";
         if (req.status === "APPROVED") {
-          statusBadge = `<span class="badge badge-success">Approved</span>`;
+          statusBadge = `<span class="status-badge status-approved">Approved</span>`;
         } else if (req.status === "REJECTED") {
-          statusBadge = `<span class="badge badge-danger">Rejected</span>`;
+          statusBadge = `<span class="status-badge status-rejected">Rejected</span>`;
         } else {
-          statusBadge = `<span class="badge badge-warning">Pending</span>`;
+          statusBadge = `<span class="status-badge status-pending">Pending</span>`;
         }
 
+        // Format Date (Assuming req.id or createdDate exists. Just using placeholder if no date field)
+        const dateStr = req.createdDate ? new Date(req.createdDate).toLocaleDateString() : "Just Now";
+
         row.innerHTML = `
-          <td>${req.id}</td>
-          <td>${req.course}</td>
-          <td>${req.department}</td>
-          <td>${statusBadge}</td>
+          <td>${dateStr}</td>
+          <td>${req.reason || "-"}</td>
+          <td>${req.course} / ${req.department}</td>
           <td>
-            <a href="/api/students/${req.id}/file" target="_blank" class="btn btn-secondary">
+            <a href="/api/students/${req.id}/file" target="_blank" class="file-link">
                View File
             </a>
           </td>
+          <td class="text-right">${statusBadge}</td>
         `;
         tableBody.appendChild(row);
       });
+    } else {
+      const tableBody = document.getElementById("studentRequests");
+      if(tableBody) tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-gray-500">No requests found. Create a new request to get started.</td></tr>`;
     }
   } catch (err) {
     console.error("Error loading requests:", err);
