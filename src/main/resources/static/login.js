@@ -66,17 +66,19 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       isOtpStep = true;
       currentAdminUsername = username;
       
-      // Hide username/password/role, show OTP
+      // Hide username/password/role labels too if they are wrapped, but since we didn't wrap them with IDs, we'll just hide the selects
       document.getElementById("username").style.display = "none";
       document.getElementById("password").style.display = "none";
       document.getElementById("role").style.display = "none";
       
-      otpInput.style.display = "block";
+      const otpContainer = document.getElementById("otpContainer");
+      if(otpContainer) otpContainer.classList.remove("hidden");
+      
       otpInput.setAttribute("required", "true");
       
-      loginBtn.textContent = "Verify OTP";
+      loginBtn.innerHTML = `<div class="absolute inset-0 w-full h-full bg-gradient-to-r from-brand-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div><span class="relative z-10">Verify OTP</span>`;
       
-      error.style.color = "#00e5ff"; // success color
+      error.style.color = "#3b82f6"; // brand color instead of cyan
       error.textContent = "OTP has been sent to your email!";
       return;
     }
@@ -102,9 +104,10 @@ document.getElementById("role").addEventListener("change", (e) => {
   isOtpStep = false;
   document.getElementById("username").style.display = "block";
   document.getElementById("password").style.display = "block";
-  document.getElementById("otp").style.display = "none";
+  const otpContainer = document.getElementById("otpContainer");
+  if(otpContainer) otpContainer.classList.add("hidden");
   document.getElementById("otp").removeAttribute("required");
-  document.getElementById("loginBtn").textContent = "Login";
+  document.getElementById("loginBtn").innerHTML = `<div class="absolute inset-0 w-full h-full bg-gradient-to-r from-brand-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div><span class="relative z-10">Sign In</span>`;
   document.getElementById("error").textContent = "";
 });
 

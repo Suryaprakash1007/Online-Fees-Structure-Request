@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Approved Requests | Admin</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,97 +13,141 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Outfit', 'sans-serif'],
                     },
                     colors: {
                         brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
+                            500: '#3b82f6',
                             600: '#2563eb',
-                            700: '#1d4ed8',
+                        },
+                        dark: {
+                            900: '#0a0a0f',
+                            800: '#12121a'
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
                 }
             }
         }
     </script>
+    <style>
+        .glass-sidebar {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 10px 0 30px -10px rgba(0,0,0,0.05);
+        }
+        .fintech-table-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+        #pendingTable td { padding: 1.25rem 1.5rem; font-size: 0.95rem; font-weight: 600; color: #111827; }
+        #pendingTable tr { transition: all 0.2s; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        #pendingTable tr:hover { background-color: rgba(255,255,255,0.5); transform: scale(1.002); }
+        .file-link { color: #2563eb; font-weight: 700; text-decoration: none; transition: color 0.2s; }
+        .file-link:hover { color: #1d4ed8; }
+        .btn-action { transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .btn-action:hover { transform: translateY(-2px); }
+        .btn-approve { background: #10b981; color: white; padding: 0.5rem 1rem; border-radius: 0.75rem; font-size: 0.875rem; font-weight: 700; margin-right: 0.5rem; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); }
+        .btn-approve:hover { box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6); }
+        .btn-reject { background: #ef4444; color: white; padding: 0.5rem 1rem; border-radius: 0.75rem; font-size: 0.875rem; font-weight: 700; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4); }
+        .btn-reject:hover { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6); }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex overflow-hidden">
+<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex overflow-hidden selection:bg-brand-500 selection:text-white">
     
+    <!-- Animated Glowing Background Orbs -->
+    <div class="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-brand-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-20 animate-blob"></div>
+        <div class="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-purple-400 rounded-full mix-blend-multiply filter blur-[100px] opacity-20 animate-blob animation-delay-2000"></div>
+    </div>
+
     <!-- Sidebar -->
-    <aside class="w-64 bg-white/90 backdrop-blur-xl border-r border-gray-200 shadow-sm flex flex-col h-screen fixed top-0 left-0 z-20 transition-all">
-        <div class="p-6">
-            <h2 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 tracking-tight text-center cursor-pointer" onclick="window.location.href='admindashboard.html'">
-                Fees Portal
+    <aside class="w-64 glass-sidebar flex flex-col h-screen fixed top-0 left-0 z-20 transition-all">
+        <div class="p-8 cursor-pointer hover:scale-105 transition-transform duration-300" onclick="window.location.href='admindashboard.html'">
+            <h2 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-brand-600 via-purple-600 to-brand-600 bg-[length:200%_auto] animate-[gradient_3s_ease-in-out_infinite] tracking-tighter text-center">
+                FeesPortal.
             </h2>
         </div>
         
-        <nav class="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
-            <a href="admindashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-xl font-medium transition-all">
-                📊 Dashboard
+        <nav class="flex-1 px-5 py-4 space-y-3 overflow-y-auto">
+            <a href="admindashboard.html" class="flex items-center gap-3 px-5 py-4 text-gray-500 hover:bg-white hover:text-dark-900 rounded-2xl font-semibold transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.05)] border border-transparent hover:border-gray-100 group">
+                <span class="text-xl group-hover:scale-110 transition-transform">📊</span> Overview
             </a>
-            <a href="admin-pending.html" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-xl font-medium transition-all">
-                ⏳ Pending Requests
+            <a href="admin-pending.html" class="flex items-center gap-3 px-5 py-4 text-gray-500 hover:bg-white hover:text-dark-900 rounded-2xl font-semibold transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.05)] border border-transparent hover:border-gray-100 group">
+                <span class="text-xl group-hover:scale-110 transition-transform">⏳</span> Pending
             </a>
-            <a href="approved.html" class="flex items-center gap-3 px-4 py-3 bg-brand-50 text-brand-700 rounded-xl font-semibold transition-all">
-                ✅ Approved Requests
+            <a href="approved.html" class="flex items-center gap-3 px-5 py-4 bg-white text-dark-900 rounded-2xl font-bold shadow-[0_8px_30px_rgb(0,0,0,0.05)] border border-gray-100 transition-all hover:scale-105">
+                <span class="text-brand-600 text-xl">✅</span> Approved
             </a>
-            <a href="rejected.html" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-xl font-medium transition-all">
-                ❌ Rejected Requests
+            <a href="rejected.html" class="flex items-center gap-3 px-5 py-4 text-gray-500 hover:bg-white hover:text-dark-900 rounded-2xl font-semibold transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.05)] border border-transparent hover:border-gray-100 group">
+                <span class="text-xl group-hover:scale-110 transition-transform">❌</span> Rejected
             </a>
         </nav>
 
-        <div class="p-4 border-t border-gray-100">
-            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl font-semibold transition-all">
-                🚪 Logout
+        <div class="p-5 border-t border-gray-100/50">
+            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-5 py-4 bg-red-50 text-red-600 hover:bg-red-500 hover:text-white rounded-2xl font-bold transition-all duration-300">
+                🚪 Sign Out
             </button>
         </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 ml-64 h-screen overflow-y-auto relative">
-        <div class="p-10 relative z-10 max-w-7xl mx-auto">
+    <main class="flex-1 ml-64 h-screen overflow-y-auto relative z-10">
+        <div class="p-12 max-w-7xl mx-auto opacity-0 animate-fade-in-up">
             
-            <header class="mb-10">
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Approved Requests</h1>
-                <p class="text-gray-500 font-medium mt-1">Review previously approved fee structure requests.</p>
+            <header class="mb-12">
+                <h1 class="text-4xl font-black text-dark-900 tracking-tighter">Approved Requests</h1>
+                <p class="text-gray-500 font-medium mt-2 text-lg">Previously approved fee structures.</p>
             </header>
 
-            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="fintech-table-container rounded-[2rem] overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
-                        <thead class="bg-gray-50">
+                        <thead class="bg-gray-50/50 backdrop-blur-md border-b border-gray-200/50">
                             <tr>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">ID</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Roll No</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Name</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Course</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Dept</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Reason</th>
-                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">File</th>
+                                <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">ID</th>
+                                <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Roll No</th>
+                                <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Name</th>
+                                <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Course</th>
+                                <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Dept</th>
+                                <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">Reason</th>
+                                <th class="px-6 py-5 text-xs font-black text-gray-400 uppercase tracking-widest">File</th>
                             </tr>
                         </thead>
-                        <tbody id="approvedTable" class="divide-y divide-gray-100 bg-white">
+                        <tbody id="approvedTable">
                             <!-- Filled dynamically by JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <p id="message" class="text-center font-medium mt-6 text-brand-600"></p>
+            <p id="message" class="text-center font-bold mt-8 text-brand-600 text-lg"></p>
 
         </div>
     </main>
 
     <script src="fetchWithAuth.js"></script>
     <script src="approved.js"></script>
-    
-    <style>
-        /* Inject tailwind classes for JS created buttons */
-        #approvedTable td { padding: 1rem 1.5rem; font-size: 0.95rem; font-weight: 500; color: #111827; }
-        #approvedTable tr:hover { background-color: #f9fafb; }
-        .file-link { color: #2563eb; font-weight: 600; text-decoration: none; }
-        .file-link:hover { text-decoration: underline; color: #1d4ed8; }
-    </style>
 </body>
 </html>
