@@ -1,44 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard | Fees Portal</title>
-  <link rel="stylesheet" href="admin-pending.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Requests | Admin</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-  <header class="navbar">
-    <div class="logo">Fees<span>Portal</span></div>
-    <nav>
-      <a href="approved.html">Approved</a>
-      <a href="rejected.html">Rejected</a>
-      <a href="login.html">Logout</a>
-    </nav>
-  </header>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white/90 backdrop-blur-xl border-r border-gray-200 shadow-sm flex flex-col h-screen fixed top-0 left-0 z-20 transition-all">
+        <div class="p-6">
+            <h2 class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 tracking-tight text-center cursor-pointer" onclick="window.location.href='admindashboard.html'">
+                Fees Portal
+            </h2>
+        </div>
+        
+        <nav class="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
+            <a href="admindashboard.html" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-xl font-medium transition-all">
+                📊 Dashboard
+            </a>
+            <a href="admin-pending.html" class="flex items-center gap-3 px-4 py-3 bg-brand-50 text-brand-700 rounded-xl font-semibold transition-all">
+                ⏳ Pending Requests
+            </a>
+            <a href="approved.html" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-xl font-medium transition-all">
+                ✅ Approved Requests
+            </a>
+            <a href="rejected.html" class="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-xl font-medium transition-all">
+                ❌ Rejected Requests
+            </a>
+        </nav>
 
-  <main class="container">
-    <h1>Pending Requests</h1>
-    <table id="studentTable">
-      <thead>
-        <tr>
-          <th>Roll No</th>
-          <th>Name</th>
-          <th>Department</th>
-          <th>Year</th>
-          <th>Course</th>
-          <th>Email</th>
-          <th>Reason</th>
-          <th>File</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Rows will be added dynamically -->
-      </tbody>
-    </table>
-    <div id="message" class="message"></div>
-  </main>
+        <div class="p-4 border-t border-gray-100">
+            <button onclick="logout()" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl font-semibold transition-all">
+                🚪 Logout
+            </button>
+        </div>
+    </aside>
 
-  <script src="fetchWithAuth.js"></script>
+    <!-- Main Content -->
+    <main class="flex-1 ml-64 h-screen overflow-y-auto relative">
+        <div class="p-10 relative z-10 max-w-7xl mx-auto">
+            
+            <header class="mb-10">
+                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Pending Requests</h1>
+                <p class="text-gray-500 font-medium mt-1">Review and manage pending fee structure requests.</p>
+            </header>
+
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">ID</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Roll No</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Name</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Course</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Dept</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Reason</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">File</th>
+                                <th class="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pendingTable" class="divide-y divide-gray-100 bg-white">
+                            <!-- Filled dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <p id="message" class="text-center font-medium mt-6 text-brand-600"></p>
+
+        </div>
+    </main>
+
+    <script src="fetchWithAuth.js"></script>
     <script src="admin-pending.js"></script>
+    
+    <style>
+        /* Inject tailwind classes for JS created buttons */
+        #pendingTable td { padding: 1rem 1.5rem; font-size: 0.95rem; font-weight: 500; color: #111827; }
+        #pendingTable tr:hover { background-color: #f9fafb; }
+        .file-link { color: #2563eb; font-weight: 600; text-decoration: none; }
+        .file-link:hover { text-decoration: underline; color: #1d4ed8; }
+        .btn-approve { background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 0.375rem 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; margin-right: 0.5rem; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); transition: transform 0.1s; }
+        .btn-approve:hover { transform: translateY(-1px); box-shadow: 0 6px 8px -1px rgba(16, 185, 129, 0.3); }
+        .btn-reject { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 0.375rem 0.75rem; border-radius: 0.5rem; font-size: 0.875rem; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2); transition: transform 0.1s; }
+        .btn-reject:hover { transform: translateY(-1px); box-shadow: 0 6px 8px -1px rgba(239, 68, 68, 0.3); }
+    </style>
 </body>
 </html>

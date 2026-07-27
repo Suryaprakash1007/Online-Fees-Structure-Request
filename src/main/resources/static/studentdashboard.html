@@ -1,45 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Student Dashboard</title>
-  <link rel="stylesheet" href="studentdasboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard | Fees Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-  <div class="container">
-    <h1>🎓 Welcome, Student</h1>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen relative overflow-x-hidden pt-12 pb-24">
+    
+    <!-- Ambient Background -->
+    <div class="fixed top-[-100px] left-[-100px] w-[600px] h-[600px] bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 z-0 pointer-events-none"></div>
+    <div class="fixed bottom-[-100px] right-[-100px] w-[600px] h-[600px] bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 z-0 pointer-events-none"></div>
 
-    <div class="card">
-      <h2>Available Actions</h2>
-      <div class="actions">
-        <button onclick="window.location.href='student-upload.html'">➕ Request Fee Structure</button>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
+        
+        <!-- Header -->
+        <h1 class="text-4xl font-extrabold text-center mb-10 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 tracking-tight">
+            🎓 Welcome, Student
+        </h1>
 
-<!-- Status Display -->
+        <!-- Actions Card -->
+        <div class="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-xl p-8 mb-10">
+            <h2 class="text-xl font-bold text-gray-900 mb-6 text-center">Available Actions</h2>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="window.location.href='student-upload.html'" class="px-6 py-3 bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-500 hover:to-brand-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
+                    ➕ Request Fee Structure
+                </button>
+                <button onclick="logout()" class="px-6 py-3 bg-white border border-gray-200 text-red-600 font-semibold rounded-xl hover:bg-red-50 hover:border-red-200 transform hover:-translate-y-0.5 transition-all shadow-sm">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
 
-        <button onclick="logout()">🚪 Logout</button>
-      </div>
+        <!-- Requests Section -->
+        <div id="requestsSection" class="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-3xl shadow-xl overflow-hidden hidden">
+            <div class="px-8 py-6 border-b border-gray-100">
+                <h2 class="text-xl font-bold text-gray-900">📄 My Requests</h2>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">ID</th>
+                            <th class="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Course</th>
+                            <th class="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Department</th>
+                            <th class="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">Status</th>
+                            <th class="px-8 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200">File</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestTable" class="divide-y divide-gray-100 bg-white">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
-    <div id="requestsSection" class="card" style="display:none;">
-      <h2>📄 My Requests</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Course</th>
-            <th>Department</th>
-            <th>Status</th>
-            <th>File</th>
-          </tr>
-        </thead>
-        <tbody id="requestTable">
-          <!-- Filled by JS -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <script src="fetchWithAuth.js"></script>
+    <script src="fetchWithAuth.js"></script>
     <script src="studentdashboard.js"></script>
+    <style>
+        /* Add minimal styling for dynamic badges inserted via JS to keep JS clean */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .badge-success { background-color: #d1fae5; color: #065f46; }
+        .badge-danger { background-color: #fee2e2; color: #991b1b; }
+        .badge-warning { background-color: #fef3c7; color: #92400e; }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.375rem 1rem;
+            background-color: #ffffff;
+            color: #2563eb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+            border-color: #2563eb;
+        }
+        #requestTable td { padding: 1rem 2rem; font-size: 0.95rem; font-weight: 500; color: #111827; }
+        #requestTable tr:hover { background-color: #f8fafc; }
+    </style>
 </body>
 </html>
