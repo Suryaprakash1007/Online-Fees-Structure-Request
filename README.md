@@ -45,3 +45,7 @@ The **Online Fees Structure Request System** provides a secure, web-based authen
    ```bash
    git clone https://github.com/Suryaprakash1007/Online-Fess-Structure-Request.git
    cd Online-Fess-Structure-Request
+
+   **Open your browser**
+   - The application will be running at `https://online-fees-structure-request.onrender.com`
+
