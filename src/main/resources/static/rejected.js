@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const tableBody = document.querySelector("#rejectedTable tbody");
+    const tableBody = document.getElementById("rejectedTable");
   
     async function loadRejected() {
       tableBody.innerHTML = "";
@@ -18,10 +18,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             <td>${stu.name}</td>
             <td>${stu.course}</td>
             <td>${stu.department}</td>
-            <td>${stu.year}</td>
-            <td>${stu.status}</td>
+            <td>${stu.reason}</td>
             <td>
-              <a class="file-link" href="/student/${stu.id}/file" target="_blank">View</a>
+              <a class="file-link" href="/api/students/${stu.id}/file" target="_blank">View Document</a>
             </td>
           `;
   
@@ -29,14 +28,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       } catch (err) {
         console.error("Error loading rejected:", err);
-        tableBody.innerHTML = `<tr><td colspan="8">Error loading data</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="7" class="text-center py-4">Error loading data</td></tr>`;
       }
     }
   
     loadRejected();
   });
   
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    window.location.href = "login.html";
-  });
-  
+  function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
+      window.location.href = "login.html";
+  }

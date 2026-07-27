@@ -3,24 +3,25 @@ async function fetchPendingStudents() {
       const response = await fetchWithAuth("/api/students/pending");
       const students = await response.json();
   
-      const tbody = document.querySelector("#studentTable tbody");
+      const tbody = document.getElementById("pendingTable");
+      if (!tbody) return;
+      
       tbody.innerHTML = "";
   
       students.forEach(student => {
         const row = document.createElement("tr");
   
         row.innerHTML = `
+          <td>${student.id}</td>
           <td>${student.rollno}</td>
           <td>${student.name}</td>
-          <td>${student.department}</td>
-          <td>${student.year}</td>
           <td>${student.course}</td>
-          <td>${student.email}</td>
+          <td>${student.department}</td>
           <td>${student.reason}</td>
-          <td><a href="/api/students/${student.id}/file" target="_blank">View</a></td>
-          <td>
-            <button class="approve" onclick="updateStatus(${student.id}, 'APPROVED')">Approve</button>
-            <button class="reject" onclick="updateStatus(${student.id}, 'REJECTED')">Reject</button>
+          <td><a class="file-link" href="/api/students/${student.id}/file" target="_blank">View Document</a></td>
+          <td class="text-center">
+            <button class="btn-action btn-approve" onclick="updateStatus(${student.id}, 'APPROVED')">Approve</button>
+            <button class="btn-action btn-reject" onclick="updateStatus(${student.id}, 'REJECTED')">Reject</button>
           </td>
         `;
   
@@ -32,6 +33,8 @@ async function fetchPendingStudents() {
   }
   
   async function updateStatus(id, status) {
+    if(!confirm(`Are you sure you want to ${status.toLowerCase()} this request?`)) return;
+
     try {
       const response = await fetchWithAuth(`/api/students/${id}/status/email?status=${status}`, {
         method: "PUT"
@@ -47,39 +50,12 @@ async function fetchPendingStudents() {
       console.error("Error updating status:", error);
     }
   }
-  async function rejectStudent(id) {
-    if (confirm("Reject this student?")) {
-      try {
-        const res = await fetchWithAuth(`/api/students/rejected/`, {
-          method: "PUT"
-        });
-        if (res.ok) {
-          alert("Rejected! Email sent to student.");
-          loadPending();
-        } else {
-          alert("Failed to reject.");
-        }
-      } catch (err) {
-        console.error("Error rejecting student:", err);
-      }
-    }
-  }
-  async function approveStudent(id) {
-    if (confirm("Approve this student?")) {
-      try {
-        const res = await fetchWithAuth(`/api/students/approved`, {
-          method: "PUT"
-        });
-        if (res.ok) {
-          alert("Approved! PDF sent to student.");
-          loadPending();
-        } else {
-          alert("Failed to approve.");
-        }
-      } catch (err) {
-        console.error("Error approving student:", err);
-      }
-    }
-  }  
+
   // Load pending students on page load
-  fetchPendingStudents();
+  document.addEventListener("DOMContentLoaded", fetchPendingStudents);
+
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("admin");
+    window.location.href = "login.html";
+  }
